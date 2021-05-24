@@ -1,7 +1,13 @@
-import cv2 
+import cv2
 import numpy as np 
 
 
 net = cv2.dnn.readNet('yolov3.weights','yolov3-416.cfg')
 classes = []
-with open
+with open('name_file', 'r') as f:
+    classes = f.read().splitlines()
+    
+    
+    print(classes)
+    
+   
