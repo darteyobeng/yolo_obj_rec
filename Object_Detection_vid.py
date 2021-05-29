@@ -8,7 +8,7 @@ with open('coco.names', 'r') as f:
     classes = f.read().splitlines()
     
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 while True:
     _, img = cap.read()
