@@ -8,7 +8,8 @@ with open('coco.names', 'r') as f:
     classes = f.read().splitlines()
     
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
+
 
 while True:
     _, img = cap.read()
@@ -52,7 +53,8 @@ while True:
     font = cv2.FONT_HERSHEY_PLAIN
     colors = np.random.uniform(0, 255, size=(len(boxes), 3))
 
-
+   # if len(indexes)>0:
+   #     break
     for i in indexes.flatten():
         x, y, w, h = boxes[i]
         label = str(classes[class_ids[i]])
