@@ -8,7 +8,7 @@ with open('coco.names', 'r') as f:
     classes = f.read().splitlines()
     
 
-img = cv2.imread('image2.jpg')
+img = cv2.imread('image4.jpg')
 height, width, _ = img.shape
 
 
@@ -26,7 +26,7 @@ for output in layerOutputs:
     for detection in output:
         scores = detection[5:]
         class_id = np.argmax(scores)
-        confidnce = scores[class_id]
+        confidence = scores[class_id]
         if confidence > 0.5:
             center_X = int(detection[0]*width)
             center_y = int(detection[1]*height)
@@ -40,10 +40,26 @@ for output in layerOutputs:
             confidences.append((float(confidence)))
             class_ids.append(class_id)
             
-            
+
 
 
 print(len(boxes))
+
+indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+
+font = cv2.FONT_HERSHEY_PLAIN
+colors = np.random.uniform(0, 255, size=(len(boxes), 3))
+
+
+for i in indexes.flatten():
+    x, y, w, h = boxes[i]
+    label = str(classes[class_ids[i]])
+    confidence = str(round(confidences[i],2))
+    color = colors[i]
+    cv2.rectangle(img, (x, y), (x+w, y+h), color, 2)
+    cv2.putText(img, label + " " + confidence, (x, y+20), font, 2, (255,255,0), 2)
+
+
 
 cv2.imshow('Image', img)
 cv2.waitKey(0)
