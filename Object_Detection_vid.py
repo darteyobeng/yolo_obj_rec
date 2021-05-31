@@ -8,7 +8,9 @@ with open('coco.names', 'r') as f:
     classes = f.read().splitlines()
     
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+#cap = cv2.VideoCapture("test.mp4")
+
 
 
 while True:
@@ -53,21 +55,20 @@ while True:
     font = cv2.FONT_HERSHEY_PLAIN
     colors = np.random.uniform(0, 255, size=(len(boxes), 3))
 
-   # if len(indexes)>0:
-   #     break
-    for i in indexes.flatten():
-        x, y, w, h = boxes[i]
-        label = str(classes[class_ids[i]])
-        confidence = str(round(confidences[i],2))
-        color = colors[i]
-        cv2.rectangle(img, (x, y), (x+w, y+h), color, 2)
-        cv2.putText(img, label + " " + confidence, (x, y+20), font, 2, (255,255,0), 2)
+    if len(indexes)>0:
+        for i in indexes.flatten():
+            x, y, w, h = boxes[i]
+            label = str(classes[class_ids[i]])
+            confidence = str(round(confidences[i],2))
+            color = colors[i]
+            cv2.rectangle(img, (x, y), (x+w, y+h), color, 2)
+            cv2.putText(img, label + " " + confidence, (x, y+20), font, 2, (255,255,0), 2)
 
 
-    cv2.imshow('Image', img)
-    key =  cv2.waitKey(1)
-    if key==27:
-       break
+        cv2.imshow('Image', img)
+        key =  cv2.waitKey(1)
+        if key==27:
+            break
 
 cap.release()
 cv2.destroyAllWindows()
